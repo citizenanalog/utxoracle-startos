@@ -95,8 +95,18 @@ interfaces:
     protocols:
       - tcp
       - http
-dependencies: {}
-# Specifies how backups should be run for this service. The default StartOS provided option is to use the duplicity backup library on a system image (compat)
+#dependencies: {}
+dependencies:
+  bitcoind:
+    version: ">=0.21.1.2 <30.0.0"
+    requirement:
+      type: required
+    description: Used as a blockchain backend.
+    config:
+      check:
+        type: script
+      auto-configure:
+        type: script
 backup:
   create:
     # Currently, only docker actions are supported.
