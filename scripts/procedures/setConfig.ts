@@ -106,55 +106,17 @@ bitcoin-rpcconnect=${bitcoin_rpc_host}
 bitcoin-rpcport=${bitcoin_rpc_port}
 
 bind-addr=0.0.0.0:9735
-announce-addr=${config["peer-tor-address"]}:9735
-proxy={proxy}
-always-use-proxy=${config.advanced["tor-only"]}
-
 alias=${alias}
-rgb=${config.color}
-
-fee-base=${config.advanced["fee-base"]}
-fee-per-satoshi=${config.advanced["fee-rate"]}
-min-capacity-sat=${config.advanced["min-capacity"]}
-ignore-fee-limits=${config.advanced["ignore-fee-limits"]}
-funding-confirms=${config.advanced["funding-confirms"]}
-cltv-delta=${config.advanced["cltv-delta"]}
-
-bind-addr=ws::4269
-grpc-port=2106
 
 `;
 }
-const validURI = /^([a-fA-F0-9]{66}@)([^:]+?)(:\d{1,5})?$/m;
+
 export const setConfig: T.ExpectedExports.setConfig = async (
   effects: T.Effects,
   input: T.Config
 ) => {
   let config = setConfigMatcher.unsafeCast(input);
-  try {
-    if (config.watchtowers["wt-client"].enabled == "enabled") {
-      const _watchTowers = config
-        .watchtowers["wt-client"]["add-watchtowers"]
-        .map((x) => {
-          const matched = x.match(validURI);
-          if (matched === null) {
-            throw `Invalid watchtower URI: ${x} doesn't match the form pubkey@host:port`;
-          }
-          if (matched[3] == null) {
-            return `${matched[1]}${matched[2]}:9814`;
-          }
-          return x;
-        });
-      config = {
-        ...config,
-        watchtowers: {
-          ...config.watchtowers,
-        },
-      };
-    }
-  } catch (e) {
-    return util.error(e);
-  }
+
 
   const error = checkConfigRules(config);
   if (error) return error;

@@ -31,7 +31,7 @@ export const dependencies: T.ExpectedExports.dependencies = {
       if (matchOldBitcoindConfig.test(configInput) && configInput.advanced.pruning.mode !== "disabled") {
         return {
           error:
-            'Pruning must be disabled to use CLN with <= 24.0.1 of Bitcoin Core. To use CLN with a pruned node, update Bitcoin Core to >= 25.0.0~2.',
+            'Pruning must be disabled.',
         };
       }
         return { result: null };

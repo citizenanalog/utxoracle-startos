@@ -64,7 +64,11 @@ health-checks:
     name: Web Interface
     success-message: The Webserver is accessible
     type: script
-config: ~
+config:
+  get:
+    type: script
+  set:
+    type: script
 properties: ~
 #  type: script
 # This denotes any data, asset, or pointer volumes that should be connected when the "docker run" command is invoked
