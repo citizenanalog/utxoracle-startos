@@ -4,6 +4,7 @@
 python3 /app/generate-html.py
 EXIT_STATUS=$?  # Capture exit status immediately
 
+
 # Check if the script ran successfully
 if [ $EXIT_STATUS -ne 0 ]; then
   echo "Error running generate-html.py (Exit status: $EXIT_STATUS)" >&2
@@ -12,6 +13,17 @@ fi
 
 # Confirm successful execution
 echo "generate-html.py ran successfully"
+
+echo "ls"
+ls
+echo "ls ~/start9/"
+ls ~/start9
+echo "ls ~/"
+ls ~/
+echo "cat ~/config.main"
+cat ~/config.main
+echo "awk -F'=' '/^alias=/ {print $2}' ~/config.main"
+awk -F'=' '/^alias=/ {print $2}' ~/config.main
 
 # Verify the move was successful
 if [ ! -f "/app/index.html" ]; then
