@@ -5,10 +5,10 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y wget tini && rm -rf /var/lib/apt/lists/*
 
 # Install bitcoin-cli
-RUN wget https://bitcoin.org/bin/bitcoin-core-25.0/bitcoin-25.0-x86_64-linux-gnu.tar.gz && \
-    tar -xvf bitcoin-25.0-x86_64-linux-gnu.tar.gz && \
+RUN wget https://bitcoin.org/bin/bitcoin-core-25.0/bitcoin-25.0-aarch64-linux-gnu.tar.gz && \
+    tar -xvf bitcoin-25.0-aarch64-linux-gnu.tar.gz && \
     mv bitcoin-25.0/bin/bitcoin-cli /usr/local/bin/ && \
-    rm -rf bitcoin-25.0-x86_64-linux-gnu.tar.gz bitcoin-25.0
+    rm -rf bitcoin-25.0-aarch64-linux-gnu.tar.gz bitcoin-25.0
 
 WORKDIR /app
 
@@ -17,8 +17,8 @@ COPY generate-html.py /app/generate-html.py
 RUN chmod +x /app/generate-html.py
 
 # Copy utxoracle.py to /app
-COPY utxoracle.py /app/utxoracle.py
-RUN chmod +x /app/utxoracle.py
+# COPY utxoracle.py /app/utxoracle.py
+# RUN chmod +x /app/utxoracle.py
 
 ARG ARCH
 ADD ./webserver/target/${ARCH}-unknown-linux-musl/release/webserver /usr/local/bin/webserver

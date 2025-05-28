@@ -81,17 +81,12 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # set platform dependent data paths and clear terminal
 import platform
 import os
-data_dir = []
+import subprocess
+# startOS Version 0.3.5~1 uses data_dir /embassy-data/package-data/volumes/bitcoind/data/main
+# might have to access bitcoind container here
+#data_dir = '/embassy-data/package-data/volumes/bitcoind/data/main'
+data_dir = '~/'
 system = platform.system()
-if system == "Darwin":  # macOS
-    data_dir = os.path.expanduser("~/Library/Application Support/Bitcoin")
-    os.system('clear')
-elif system == "Windows":
-    data_dir = os.path.join(os.environ.get("APPDATA", ""), "Bitcoin")
-    os.system('cls')
-else:  # Linux or others
-    data_dir = os.path.expanduser("~/.bitcoin")
-    os.system('clear')
 
 # initialize variables for blocks and dates
 date_entered = ""
@@ -118,7 +113,7 @@ Options:
     print(help_text)
     sys.exit(0)
 
-#did use ask for help
+#did user ask for help
 if "-h" in sys.argv:
     print_help()
     
@@ -140,14 +135,14 @@ if "-rb" in sys.argv:
     block_mode = True
 
 # Validate bitcoin.conf in data_dir
-conf_path = os.path.join(data_dir, "bitcoin.conf")
+conf_path = os.path.join(data_dir, "config.main")
 if not os.path.exists(conf_path):
     print(f"Invalid Bitcoin data directory: {data_dir}")
-    print("Expected to find 'bitcoin.conf' in this directory.")
+    print("Expected to find 'config.main' in this directory.")
     sys.exit(1)
 
 #parse the conf file for the blocks dir and rpc credentials
-conf_path = os.path.join(data_dir, "bitcoin.conf")
+conf_path = os.path.join(data_dir, "config.main")
 conf_settings = {}
 if os.path.exists(conf_path):
     with open(conf_path, 'r') as f:
@@ -164,7 +159,7 @@ blocks_dir = os.path.expanduser(conf_settings.get("blocksdir", os.path.join(data
 
 # Build CLI options if specified in conf file
 bitcoin_cli_options = []
-if "rpcuser" in conf_settings and "rpcpassword" in conf_settings:
+if "bitcoin-rpcuser" in conf_settings and "bitcoin-rpcpassword" in conf_settings:
     bitcoin_cli_options.append(f"-rpcuser={conf_settings['rpcuser']}")
     bitcoin_cli_options.append(f"-rpcpassword={conf_settings['rpcpassword']}")
 else:
@@ -172,10 +167,12 @@ else:
     if os.path.exists(cookie_path):
         bitcoin_cli_options.append(f"-rpccookiefile={cookie_path}")
 
-for opt in ["rpcconnect", "rpcport"]:
+# for opt in ["bitcoin-rpcconnect", "bitcoin-rpcport"]:
+#     if opt in conf_settings:
+#         bitcoin_cli_options.append(f"-{opt}={conf_settings[opt]}")
+for opt in ["bitcoin-rpcport"]:
     if opt in conf_settings:
         bitcoin_cli_options.append(f"-{opt}={conf_settings[opt]}")
-
 
 
 ###############################################################################  
