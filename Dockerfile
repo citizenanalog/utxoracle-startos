@@ -16,9 +16,9 @@ WORKDIR /app
 COPY generate-html.py /app/generate-html.py
 RUN chmod +x /app/generate-html.py
 
-# Copy utxoracle.py to /app
-# COPY utxoracle.py /app/utxoracle.py
-# RUN chmod +x /app/utxoracle.py
+#Copy utxoracle.py to /app
+COPY utxoracle.py /app/utxoracle.py
+RUN chmod +x /app/utxoracle.py
 
 ARG ARCH
 ADD ./webserver/target/${ARCH}-unknown-linux-musl/release/webserver /usr/local/bin/webserver

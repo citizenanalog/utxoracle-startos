@@ -117,7 +117,6 @@ export const setConfig: T.ExpectedExports.setConfig = async (
 ) => {
   let config = setConfigMatcher.unsafeCast(input);
 
-
   const error = checkConfigRules(config);
   if (error) return error;
   const alias = await getAlias(effects, config);

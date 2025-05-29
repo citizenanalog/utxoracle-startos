@@ -12,6 +12,7 @@ export const [getConfig, setConfigMatcher] = compat.getConfigAndMatcher({
     name: "Alias",
     description: "A custom, human-readable name for your node.  This is publicly visible to the Lightning Network.  <b>Default: Unique id of pattern: start9-[random alphanumerics]</b>",
     nullable: true,
+    "package-id": "utxoracle",
     pattern: ".{1,32}",
     "pattern-description":
       "Must be at least 1 character and no more than 32 characters",

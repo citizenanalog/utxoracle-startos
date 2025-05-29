@@ -85,7 +85,9 @@ import subprocess
 # startOS Version 0.3.5~1 uses data_dir /embassy-data/package-data/volumes/bitcoind/data/main
 # might have to access bitcoind container here
 #data_dir = '/embassy-data/package-data/volumes/bitcoind/data/main'
-data_dir = '~/'
+# data_dir = '~/'
+# using utxoracle container datadir
+data_dir = os.path.expanduser('~/')
 system = platform.system()
 
 # initialize variables for blocks and dates
