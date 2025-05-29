@@ -157,24 +157,23 @@ if os.path.exists(conf_path):
                 conf_settings[key.strip()] = value.strip().strip('"')
 
 # Set blocks directory from default or user specified
-blocks_dir = os.path.expanduser(conf_settings.get("blocksdir", os.path.join(data_dir, "blocks")))
+# blocks_dir = os.path.expanduser(conf_settings.get("blocksdir", os.path.join(data_dir, "blocks")))
+# use dir set in Manifest:main:mounts:bitcoind:
+blocks_dir = os.path.expanduser('~/.bitcoin/blocks')
 
 # Build CLI options if specified in conf file
 bitcoin_cli_options = []
 if "bitcoin-rpcuser" in conf_settings and "bitcoin-rpcpassword" in conf_settings:
-    bitcoin_cli_options.append(f"-rpcuser={conf_settings['rpcuser']}")
-    bitcoin_cli_options.append(f"-rpcpassword={conf_settings['rpcpassword']}")
+    bitcoin_cli_options.append(f"-rpcuser={conf_settings['bitcoin-rpcuser']}")
+    bitcoin_cli_options.append(f"-rpcpassword={conf_settings['bitcoin-rpcpassword']}")
 else:
     cookie_path = conf_settings.get("rpccookiefile", os.path.join(data_dir, ".cookie"))
     if os.path.exists(cookie_path):
         bitcoin_cli_options.append(f"-rpccookiefile={cookie_path}")
 
-# for opt in ["bitcoin-rpcconnect", "bitcoin-rpcport"]:
-#     if opt in conf_settings:
-#         bitcoin_cli_options.append(f"-{opt}={conf_settings[opt]}")
-for opt in ["bitcoin-rpcport"]:
-    if opt in conf_settings:
-        bitcoin_cli_options.append(f"-{opt}={conf_settings[opt]}")
+if "bitcoin-rpcconnect" in conf_settings and "bitcoin-rpcport" in conf_settings:
+    bitcoin_cli_options.append(f"-rpcconnect={conf_settings['bitcoin-rpcconnect']}")
+    bitcoin_cli_options.append(f"-rpcport={conf_settings['bitcoin-rpcport']}")
 
 
 ###############################################################################  
@@ -1431,6 +1430,15 @@ if block_mode:
     bottom_note1 = "* Block Window Price "
     bottom_note2 = "may have node dependent differences data on the chain tip"
 
+# def write_to_file(filename, content):
+#     """
+#     Write content to a file.
+#
+#     :param filename: The name of the file to write to.
+#     :param content: The content to write.
+#     """
+#     with open(filename, 'w') as f:
+#         f.write(content)
 
 # Write the HTML code for the chart
 html_content = f'''<!DOCTYPE html>
@@ -1755,22 +1763,28 @@ Want a
 </html>
 '''
 
+def write_to_file(filename, html_content):
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write(html_content)
+
+filename = "index.html"
+write_to_file(filename, html_content)  # This will overwrite index.html
+print(f"HTML file generated: {filename}")
 
 
-
-# name the file with dates or blocks
-filename = ".html"
-if date_mode:
-    filename = "UTXOracle_"+price_date_dash+filename
-if block_mode:
-    filename = "UTXOracle_"+str(block_start_num)+"-"+str(block_finish_num)+filename
-
-
-# Write file locally and serve to browser
-import webbrowser
-with open(filename, "w") as f:
-    f.write(html_content)
-webbrowser.open('file://' + os.path.realpath(filename))
+# # name the file with dates or blocks
+# filename = ".html"
+# if date_mode:
+#     filename = "UTXOracle_"+price_date_dash+filename
+# if block_mode:
+#     filename = "UTXOracle_"+str(block_start_num)+"-"+str(block_finish_num)+filename
+#
+#
+# # Write file locally and serve to browser
+# import webbrowser
+# with open(filename, "w") as f:
+#     f.write(html_content)
+# webbrowser.open('file://' + os.path.realpath(filename))
 
 
 

@@ -107,6 +107,10 @@ interfaces:
     entrypoint: "docker_entrypoint.sh"
     args: []
     ui: true
+    lan-config:
+      443:
+        ssl: true
+        internal: 80
     protocols:
       - tcp
       - http

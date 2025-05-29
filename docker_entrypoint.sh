@@ -1,29 +1,11 @@
 #!/bin/sh
 
-# Run generate-html.py to generate the HTML output file
-python3 /app/generate-html.py
-#XIT_STATUS=$?  # Capture exit status immediately
-
-
-# Check if the script ran successfully
-# if [ $EXIT_STATUS -ne 0 ]; then
-#   echo "Error running generate-html.py (Exit status: $EXIT_STATUS)" >&2
-#   exit 1
-# fi
-
-# # Confirm successful execution
-# echo "generate-html.py ran successfully"
-
-# echo "ls"
-# ls
-# echo "ls ~/start9/"
-# ls ~/start9
-# echo "ls ~/"
-# ls ~/
-# echo "cat ~/config.main"
-# cat ~/config.main
-# echo "awk -F'=' '/^alias=/ {print $2}' ~/config.main"
+# Extract the alias value from config.main
+alias_value=$(awk -F'=' '/^alias=/ {print $2}' ~/config.main)
 # awk -F'=' '/^alias=/ {print $2}' ~/config.main
+# Run generate-html.py with the alias value as an argument
+echo "running utxoracle.py -$alias_value"
+python3 /app/utxoracle.py "-$alias_value"
 
 # # Verify the move was successful
 # if [ ! -f "/app/index.html" ]; then
