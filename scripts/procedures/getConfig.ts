@@ -7,16 +7,23 @@
 import { compat } from "../deps.ts";
 
 export const [getConfig, setConfigMatcher] = compat.getConfigAndMatcher({
-  alias: {
+  argument: {
     type: "string",
-    name: "Alias",
-    description: "A custom, human-readable name for your node.  This is publicly visible to the Lightning Network.  <b>Default: Unique id of pattern: start9-[random alphanumerics]</b>",
+    name: "Argument (-rb, -d YYYY/MM/DD)",
+    description:
+    "Input argument options:\n-h Show this help message\n-d YYYY/MM/DD Specify a UTC date to evaluate\n-p /path/to/dir  Specify the data directory for blk files\n-rb Use last 144 recent blocks instead of date mode\n<b>Default: -rb Recent Block Mode</b>",
     nullable: true,
+    tag: {
+      "id": "type",
+      "name": "Input Argument (-rb, -d YYYY/MM/DD, -p /path/to/dir)",
+      },
+      "description":
+      "Input argument options:\n-h Show this help message\n-d YYYY/MM/DD Specify a UTC date to evaluate\n-p /path/to/dir  Specify the data directory for blk files\n-rb Use last 144 recent blocks instead of date mode\n<b>Default: -rb Recent Block Mode</b>",
     "package-id": "utxoracle",
     pattern: ".{1,32}",
-    "pattern-description":
+      "pattern-description":
       "Must be at least 1 character and no more than 32 characters",
-  },
+    },
   "bitcoin-user": {
     type: "pointer",
     name: "RPC Username",

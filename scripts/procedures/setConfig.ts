@@ -6,7 +6,7 @@
 
 import { compat, matches, types as T, util } from "../deps.ts";
 import { SetConfig, setConfigMatcher } from "./getConfig.ts";
-import { Alias, getAlias } from "./getAlias.ts";
+import { Argument, getArgument } from "./getArg.ts";
 
 const { string, boolean, shape, arrayOf } = matches;
 
@@ -90,7 +90,7 @@ function userInformation(config: SetConfig) {
   };
 }
 
-function configMaker(alias: Alias, config: SetConfig) {
+function configMaker(argument: Argument, config: SetConfig) {
   const {
     bitcoin_rpc_host,
     bitcoin_rpc_pass,
@@ -104,9 +104,8 @@ bitcoin-rpcuser=${bitcoin_rpc_user}
 bitcoin-rpcpassword=${bitcoin_rpc_pass}
 bitcoin-rpcconnect=${bitcoin_rpc_host}
 bitcoin-rpcport=${bitcoin_rpc_port}
-
 bind-addr=0.0.0.0:9735
-alias=${alias}
+argument=${argument}
 
 `;
 }
@@ -119,7 +118,7 @@ export const setConfig: T.ExpectedExports.setConfig = async (
 
   const error = checkConfigRules(config);
   if (error) return error;
-  const alias = await getAlias(effects, config);
+  const argument = await getArgument(effects, config);
 
   await effects.createDir({
     path: "start9",
@@ -128,7 +127,7 @@ export const setConfig: T.ExpectedExports.setConfig = async (
 
   await effects.writeFile({
     path: "config.main",
-    toWrite: configMaker(alias, config),
+    toWrite: configMaker(argument, config),
     volumeId: "main",
   });
 

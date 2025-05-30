@@ -1,18 +1,19 @@
 #!/bin/sh
 
-# Extract the alias value from config.main
-alias_value=$(awk -F'=' '/^alias=/ {print $2}' ~/config.main)
-# awk -F'=' '/^alias=/ {print $2}' ~/config.main
-# Run generate-html.py with the alias value as an argument
-echo "running utxoracle.py -$alias_value"
-python3 /app/utxoracle.py "-$alias_value"
+#Extract the argument value from config.main
+argument_value=$(awk -F'=' '/^argument=/ {print $2}' ~/config.main)
 
-# # Verify the move was successful
-# if [ ! -f "/app/index.html" ]; then
-#   echo "Error: Failed to move index.html to /app/index.html" >&2
-#   exit 1
-# fi
-
+# Check if argument_value starts with start9
+case "$argument_value" in
+    start9*)
+        echo "running utxoracle.py without argument"
+        python3 /app/utxoracle.py
+        ;;
+    *)
+        echo "running utxoracle.py -$argument_value"
+        python3 /app/utxoracle.py "-$argument_value"
+        ;;
+esac
 
 # Start the webserver Rust service
 printf "\n\n [i] Starting Webserver ...\n\n"

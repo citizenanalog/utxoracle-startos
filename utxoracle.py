@@ -116,23 +116,20 @@ Options:
     sys.exit(0)
 
 #did user ask for help
+# Check command line arguments
 if "-h" in sys.argv:
     print_help()
-    
-#did user specify a date?
-if "-d" in sys.argv:
+elif "-d" in sys.argv:
     h_index = sys.argv.index("-d")
     if h_index + 1 < len(sys.argv):
         date_entered = sys.argv[h_index + 1]
-
-#did user specify a data path?
-if "-p" in sys.argv:
+        date_mode = True
+elif "-p" in sys.argv:
     d_index = sys.argv.index("-p")
     if d_index + 1 < len(sys.argv):
         data_dir = sys.argv[d_index + 1]
-
-#did user specify blocks instead of a date?
-if "-rb" in sys.argv:
+else:
+    # Default to -rb case if none of the above conditions are met
     date_mode = False
     block_mode = True
 
