@@ -2,9 +2,16 @@
   <img src="icon.png" alt="Project Logo" width="21%">
 </p>
 
-# Hello World for StartOS
+# UTXOracle for StartOS
 
-Hello World is a simple, minimal project that serves as a template for creating a service that runs on StartOS. This repository creates the `s9pk` package that is installed to run `hello-world` on [StartOS](https://github.com/Start9Labs/start-os/). Learn more about service packaging in the [Developer Docs](https://start9.com/latest/developer-docs/).
+What is UTXOracle?
+
+UTXOracle is the decentralized alternative to knowing the price of bitcoin.
+
+Instead of relying on prices given by exchanges, the open-source program [UTXOracle.py](https://utxo.live/oracle/UTXOracle.py) determines the price by analyzing patterns of on-chain transactions.
+
+The program connects to a local bitcoin node and no other outside sources. Everyone who independently runs this code will get the same price estimate.
+
 
 ## Dependencies
 
@@ -116,6 +123,6 @@ make install
 
 ### Verify Install
 
-Go to your StartOS Services page, select **Hello World**, configure and start the service. Then, verify its interfaces are accessible.
+Go to your StartOS Services page, select **UTXOracle**, configure and start the service. Then, verify its interfaces are accessible.
 
 **Done!** 
