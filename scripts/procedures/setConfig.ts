@@ -1,9 +1,4 @@
 // This is where any configuration rules related to the configuration would go. These ensure that the user can only create a valid config.
-
-//port { compat, } from "../deps.ts";
-
-//port const setConfig = compat.setConfig;
-
 import { compat, matches, types as T, util } from "../deps.ts";
 import { SetConfig, setConfigMatcher } from "./getConfig.ts";
 import { Argument, getArgument } from "./getArg.ts";
@@ -13,34 +8,10 @@ const { string, boolean, shape, arrayOf } = matches;
 type Check = {
   currentError(config: T.Config): string | void;
 };
-const matchWTtEnabledConfig = shape({
-  watchtowers: shape({
-    "wt-server": boolean,
-    "wt-client": shape({
-      "enabled": string,
-      "add-watchtowers": arrayOf(string),
-    })
-  }),
-});
+
 const configRules: Array<Check> = [
   {
     currentError(config) {
-      if (matchWTtEnabledConfig.test(config)) {
-        for (const outerIndex in config.watchtowers["wt-client"]["add-watchtowers"]) {
-          const outerTowerUri = config.watchtowers["wt-client"]["add-watchtowers"][outerIndex];
-          for (const innerIndex in config.watchtowers["wt-client"]["add-watchtowers"]) {
-            const innerTowerUri =
-              config.watchtowers["wt-client"]["add-watchtowers"][innerIndex];
-            if (outerIndex != innerIndex) {
-              if (
-                outerTowerUri.split("@")[0] == innerTowerUri.split("@")[0]
-              ) {
-                return `Cannot add multiple watchtowers with the same pubkey`;
-              }
-            }
-          }
-        }
-      }
     },
   },
 ];

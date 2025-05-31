@@ -116,51 +116,45 @@ Options:
     print(help_text)
     sys.exit(0)
 
-#did user ask for help
+# Create parser with default help
 parser = argparse.ArgumentParser(description="UTXOracle script")
 parser.add_argument("-d", "--date", help="Specify date for date mode")
 parser.add_argument("-p", "--path", help="Specify data directory")
 parser.add_argument("-rb", "--block-mode", action="store_true", help="Run in block mode")
 
-args = parser.parse_args()
-print(f"Arguments: {sys.argv}")
+try:
+    args = parser.parse_args()
+except SystemExit as e:
+    print(f"Error parsing arguments: {e}")
+    sys.exit(1)
+
+# print(f"Arguments: {sys.argv}")
+
+# Initialize defaults
+date_mode = False
+block_mode = False
+date_entered = None
 
 if args.date:
-    print(f"-­d mode, sys.argv = {sys.argv}, date = {args.date}")
+    print(f"-d mode, date = {args.date}")
     date_entered = args.date
     date_mode = True
 elif args.path:
-    print(f"-p mode, sys.argv = {sys.argv}, path = {args.path}")
+    print(f"-p mode.")
     data_dir = args.path
-elif args.rb:
-    print(f"-rb mode, sys.argv = {sys.argv}")
+elif args.block_mode:  # Changed from args.rb to args.block_mode
+    print(f"-rb mode.")
     date_mode = False
     block_mode = True
 else:
-    print(f"Default -rb mode, sys.argv = {sys.argv}")
-    date_mode = False
-    block_mode = True
-# Check command line arguments
-# if "-h" in sys.argv:
-#     print_help()
-#     print(f"-h mode, sys.arg =  {sys.argv}")
-# elif "-d" in sys.argv:
-#     h_index = sys.argv.index("-d")
-#     print(f"-d mode, sys.arg =  {sys.argv}")
-#     if h_index + 1 < len(sys.argv):
-#         date_entered = sys.argv[h_index + 1]
-#         date_mode = True
-# elif "-p" in sys.argv:
-#     d_index = sys.argv.index("-p")
-#     print(f"-p mode, sys.arg =  {sys.argv}")
-#     print(f"-p mode, sys.arg =  {d_index}")
-#     if d_index + 1 < len(sys.argv):
-#         data_dir = sys.argv[d_index + 1]
-# else:
-#     # Default to -rb case if none of the above conditions are met
-#     print(f"-rb mode, sys.arg =  {sys.argv}")
-#     date_mode = False
-#     block_mode = True
+    # Handle no arguments
+    if len(sys.argv) == 1:  # Only script name, no arguments
+        print(f"No arguments provided, defaulting to -rb mode.")
+        date_mode = False
+        block_mode = True
+    else:
+        print(f"Invalid arguments provided, sys.argv = {sys.argv}")
+        sys.exit(1)
 
 # Validate bitcoin.conf in data_dir
 conf_path = os.path.join(data_dir, "config.main")
@@ -183,7 +177,6 @@ if os.path.exists(conf_path):
                 conf_settings[key.strip()] = value.strip().strip('"')
 
 # Set blocks directory from default or user specified
-# blocks_dir = os.path.expanduser(conf_settings.get("blocksdir", os.path.join(data_dir, "blocks")))
 # use dir set in Manifest:main:mounts:bitcoind:
 blocks_dir = os.path.expanduser('~/.bitcoin/blocks')
 
