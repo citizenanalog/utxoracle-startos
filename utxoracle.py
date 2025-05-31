@@ -1425,7 +1425,7 @@ if block_mode:
     plot_title_left = "Local Node Blocks "+str(block_start_num)+"-"+str(block_finish_num)
     plot_title_right ="UTXOracle Block Window Price $"+f"{int(central_price):,}"
     bottom_note1 = "* Block Window Price "
-    bottom_note2 = "may have node dependent differences data on the chain tip"
+    bottom_note2 = "may have node dependent differences on the chain tip"
 
 # def write_to_file(filename, content):
 #     """
