@@ -10,8 +10,8 @@ case "$argument_value" in
         python3 /app/utxoracle.py
         ;;
     *)
-        echo "running utxoracle.py -$argument_value"
-        python3 /app/utxoracle.py "-$argument_value"
+        echo "running utxoracle.py $argument_value"
+        python3 /app/utxoracle.py "$argument_value"
         ;;
 esac
 

@@ -102,6 +102,7 @@ block_times_needed = []
 
 #print help text for the user if needed
 import sys
+import argparse
 def print_help():
     help_text = """
 Usage: python script.py [options]
@@ -116,22 +117,50 @@ Options:
     sys.exit(0)
 
 #did user ask for help
-# Check command line arguments
-if "-h" in sys.argv:
-    print_help()
-elif "-d" in sys.argv:
-    h_index = sys.argv.index("-d")
-    if h_index + 1 < len(sys.argv):
-        date_entered = sys.argv[h_index + 1]
-        date_mode = True
-elif "-p" in sys.argv:
-    d_index = sys.argv.index("-p")
-    if d_index + 1 < len(sys.argv):
-        data_dir = sys.argv[d_index + 1]
-else:
-    # Default to -rb case if none of the above conditions are met
+parser = argparse.ArgumentParser(description="UTXOracle script")
+parser.add_argument("-d", "--date", help="Specify date for date mode")
+parser.add_argument("-p", "--path", help="Specify data directory")
+parser.add_argument("-rb", "--block-mode", action="store_true", help="Run in block mode")
+
+args = parser.parse_args()
+print(f"Arguments: {sys.argv}")
+
+if args.date:
+    print(f"-­d mode, sys.argv = {sys.argv}, date = {args.date}")
+    date_entered = args.date
+    date_mode = True
+elif args.path:
+    print(f"-p mode, sys.argv = {sys.argv}, path = {args.path}")
+    data_dir = args.path
+elif args.rb:
+    print(f"-rb mode, sys.argv = {sys.argv}")
     date_mode = False
     block_mode = True
+else:
+    print(f"Default -rb mode, sys.argv = {sys.argv}")
+    date_mode = False
+    block_mode = True
+# Check command line arguments
+# if "-h" in sys.argv:
+#     print_help()
+#     print(f"-h mode, sys.arg =  {sys.argv}")
+# elif "-d" in sys.argv:
+#     h_index = sys.argv.index("-d")
+#     print(f"-d mode, sys.arg =  {sys.argv}")
+#     if h_index + 1 < len(sys.argv):
+#         date_entered = sys.argv[h_index + 1]
+#         date_mode = True
+# elif "-p" in sys.argv:
+#     d_index = sys.argv.index("-p")
+#     print(f"-p mode, sys.arg =  {sys.argv}")
+#     print(f"-p mode, sys.arg =  {d_index}")
+#     if d_index + 1 < len(sys.argv):
+#         data_dir = sys.argv[d_index + 1]
+# else:
+#     # Default to -rb case if none of the above conditions are met
+#     print(f"-rb mode, sys.arg =  {sys.argv}")
+#     date_mode = False
+#     block_mode = True
 
 # Validate bitcoin.conf in data_dir
 conf_path = os.path.join(data_dir, "config.main")
@@ -1734,11 +1763,11 @@ downloadBtn.addEventListener('click', function() {{
 <br>
 <br>
 
-
+<!--
 <h2 style="margin-top:10px; font-size:24px;">
-Want a 
+Want a
 <span style="color:orange; font-size:24px;">Live Updating Oracle</span>
-  with New Mempool Transactions? 
+  with New Mempool Transactions?
 </h2>
 
 
@@ -1749,13 +1778,13 @@ Want a
     frameborder="0"
     allow="autoplay; encrypted-media"
     allowfullscreen
-    
+
 </iframe>
 
 
 
 <br>
-
+-->
 </body>
 </html>
 '''
