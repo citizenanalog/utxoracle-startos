@@ -9,21 +9,21 @@ import { compat } from "../deps.ts";
 export const [getConfig, setConfigMatcher] = compat.getConfigAndMatcher({
   argument: {
     type: "string",
-    name: "Argument (-rb, -d YYYY/MM/DD)",
+    name: "Argument (YYYY/MM/DD)",
     description:
-    "Input argument options:\n-h Show this help message\n-d YYYY/MM/DD Specify a UTC date to evaluate\n-p /path/to/dir  Specify the data directory for blk files\n-rb Use last 144 recent blocks instead of date mode\n<b>Default: -rb Recent Block Mode</b>",
+    "Input argument options:/\nYYYY/MM/DD Specify a UTC date to evaluate.\\n<b>Default (no input): -rb Recent Block Mode</b>",
     nullable: true,
     tag: {
       "id": "type",
       "name": "Input Argument (-rb, -d YYYY/MM/DD, -p /path/to/dir)",
       },
       "description":
-      "Input argument options:\n-h Show this help message\n-d YYYY/MM/DD Specify a UTC date to evaluate\n-p /path/to/dir  Specify the data directory for blk files\n-rb Use last 144 recent blocks instead of date mode\n<b>Default: -rb Recent Block Mode</b>",
+      "Input argument options: YYYY/MM/DD Specify a UTC date to evaluate. <b>Default (no input): -rb Recent Block Mode</b>",
     "package-id": "utxoracle",
-    pattern: ".{1,32}",
+    pattern: "^(\\d{4})/(\\d{1,2})/(\\d{1,2})$",
       "pattern-description":
-      "Must be at least 1 character and no more than 32 characters",
-    },
+      "Must be in the format 'YYYY/MM/DD' or '-d YYYY/DD/MM', where YYYY is a 4-digit year, MM is a 1-2 digit month, and DD is a 1-2 digit day, only dates after 2023/12/15",
+  },
   "bitcoin-user": {
     type: "pointer",
     name: "RPC Username",
