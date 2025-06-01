@@ -8,10 +8,14 @@ case "$argument_value" in
     start9*)
         echo "running utxoracle.py without argument"
         python3 /app/utxoracle.py
+        exit_code=$?
+        echo $exit_code > /tmp/utxoracle_exit_code
         ;;
     *)
         echo "running utxoracle.py $argument_value"
         python3 /app/utxoracle.py "$argument_value"
+        exit_code=$?
+        echo $exit_code > /tmp/utxoracle_exit_code
         ;;
 esac
 

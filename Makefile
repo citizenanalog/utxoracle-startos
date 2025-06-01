@@ -50,14 +50,14 @@ x86:
 	@rm -f docker-images/aarch64.tar
 	ARCH=x86_64 $(MAKE)
 
-docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh webserver/target/aarch64-unknown-linux-musl/release/webserver
+docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh utils/* webserver/target/aarch64-unknown-linux-musl/release/webserver
 ifeq ($(ARCH),x86_64)
 else
 	mkdir -p docker-images
 	docker buildx build --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=aarch64 --platform=linux/arm64 -o type=docker,dest=docker-images/aarch64.tar .
 endif
 
-docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh webserver/target/x86_64-unknown-linux-musl/release/webserver
+docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh utils/* webserver/target/x86_64-unknown-linux-musl/release/webserver
 ifeq ($(ARCH),aarch64)
 else
 	mkdir -p docker-images

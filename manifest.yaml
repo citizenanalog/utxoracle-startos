@@ -5,7 +5,7 @@ id: utxoracle
  # A human readable service title
 title: "UTXOracle"
 # Service version - accepts up to four digits, where the last confirms to revisions necessary for StartOS - see documentation: https://github.com/Start9Labs/emver-rs. This value will change with each release of the service.
-version: 0.9.2
+version: 0.9.3
 # Release notes for the update - can be a string, paragraph or URL
 # The type of license for the project. Include the LICENSE in the root of the project directory. A license is required for a Start9 package.
 release-notes: |
@@ -67,6 +67,17 @@ health-checks:
     name: Web Interface
     success-message: The Webserver is accessible
     type: script
+  complete:
+    name: UTXOracle Completion
+    success-message: UTXOracle script has completed successfully
+    type: docker
+    image: main
+    system: false
+    entrypoint: check-complete.sh
+    inject: true
+    args: ["complete"]
+    mounts: {}
+    io-format: json
 config:
   get:
     type: script
