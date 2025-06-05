@@ -9,20 +9,17 @@ import { compat } from "../deps.ts";
 export const [getConfig, setConfigMatcher] = compat.getConfigAndMatcher({
   argument: {
     type: "string",
-    name: "Argument (YYYY/MM/DD)",
+    name: "Argument (YYYY/MM/DD or y or rb)",
     description:
-    "Input argument options:/\nYYYY/MM/DD Specify a UTC date to evaluate.\\n<b>Default (no input): -rb Recent Block Mode</b>",
+    "Input argument options: YYYY/MM/DD Specify a UTC date to evaluate or 'y' to run yesterday's date.\\n<b>Default (no input): -rb Recent Block Mode</b>",
     nullable: true,
     tag: {
       "id": "type",
-      "name": "Input Argument (-rb, -d YYYY/MM/DD, -p /path/to/dir)",
+      "name": "Input Argument (-y Evaluate yesterday, -rb, -d YYYY/MM/DD, -p /path/to/dir)",
       },
       "description":
-      "Input argument options: YYYY/MM/DD Specify a UTC date to evaluate. <b>Default (no input): -rb Recent Block Mode</b>",
+      "Input argument options: YYYY/MM/DD Specify a UTC date to evaluate or 'y' to run yesterday's date. <b>Default (no input): -rb Recent Block Mode</b>",
     "package-id": "utxoracle",
-    pattern: "^(\\d{4})/(\\d{1,2})/(\\d{1,2})$",
-      "pattern-description":
-      "Must be in the format 'YYYY/MM/DD' or '-d YYYY/DD/MM', where YYYY is a 4-digit year, MM is a 1-2 digit month, and DD is a 1-2 digit day, only dates after 2023/12/15",
   },
   "bitcoin-user": {
     type: "pointer",

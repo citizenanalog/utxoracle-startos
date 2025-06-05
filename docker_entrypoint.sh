@@ -2,9 +2,9 @@
 
 #Extract the argument value from config.main
 argument_value=$(awk -F'=' '/^argument=/ {print $2}' ~/config.main)
-# add '- d' to input arg, forces date mode or rb mode (if date invalid)
-dash_arg_value="-d ${argument_value}"
-# echo "dash_arg_value=$dash_arg_value"
+# add '-' to input arg
+dash_arg_value="-${argument_value}"
+echo "dash_arg_value=$dash_arg_value"
 # Check if argument_value starts with start9
 case "$argument_value" in
     start9*)
