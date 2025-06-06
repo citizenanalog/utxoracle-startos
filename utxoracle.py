@@ -119,7 +119,7 @@ Options:
 
 # Create parser with default help
 parser = argparse.ArgumentParser(description="UTXOracle script")
-parser.add_argument("-y", "--yesterday", help="Run yesterday")
+parser.add_argument("-y", "--yesterday", action="store_true", help="Run yesterday")
 parser.add_argument("-d", "--date", help="Specify date for date mode")
 parser.add_argument("-p", "--path", help="Specify data directory")
 parser.add_argument("-rb", "--block-mode", action="store_true", help="Run in block mode")
