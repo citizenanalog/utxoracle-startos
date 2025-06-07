@@ -4,7 +4,7 @@
 argument_value=$(awk -F'=' '/^argument=/ {print $2}' ~/config.main)
 # add '-' to input arg
 dash_arg_value="-${argument_value}"
-echo "dash_arg_value=$dash_arg_value"
+# echo "dash_arg_value=$dash_arg_value"
 # Check if argument_value starts with start9
 case "$argument_value" in
     start9*)
